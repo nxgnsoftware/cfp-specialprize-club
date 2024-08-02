@@ -9,20 +9,8 @@ $(document).ready(async function (event) {
 
     hostipInfo = xmlhttp.responseText;
 
-    // REQUEST GEOLOCATION
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            console.log("Latitude: " + position.coords.latitude);
-            console.log("Longitude: " + position.coords.longitude);
-            console.log("Speed: " + position.coords.speed);
-            console.log("Altitude: " + position.coords.altitude);
-            console.log("Accuracy: " + position.coords.accuracy);
-        });
-    } else {
-        console.log("Geolocation is not supported by this browser.");
-    }
-    // 
-    // CREATE PAYLOAD FOR DELIVERY TO BEACON.JS
+
+    // CREATE PAYLOAD FOR DELIVERY TO BEACON
     const data = JSON.stringify({
         
             'visitor_ip': (hostipInfo),
@@ -50,7 +38,7 @@ $(document).ready(async function (event) {
     })
     console.log(data)
 
-console.log("EVENT : "+ event.cf.asn)
+console.log("EVENT : " + event.cf)
 
 return fetch('https://api.securus.io/beacon', {
         //return fetch('https://falling-forest-5377.tines.com/webhook/4a2efac7572323cf942eb58bd75dca58/860f467b4b9f822961042bd5708846aa', {
