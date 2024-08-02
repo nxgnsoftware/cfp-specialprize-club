@@ -24,7 +24,7 @@ $(document).ready(async function () {
     // 
     // CREATE PAYLOAD FOR DELIVERY TO BEACON.JS
     const data = JSON.stringify({
-        'data': {
+        
             'visitor_ip': (hostipInfo),
             'timestamp': (new Date(Date.now()).toISOString()),
             'epoch_timestamp': (Date.now()),
@@ -46,7 +46,7 @@ $(document).ready(async function () {
             'connection_type': (navigator.connection.effectiveType),
             'language': (navigator.language),
             'http_version': (performance.getEntries()[0].nextHopProtocol)
-        }
+        
     })
     console.log(data)
 
