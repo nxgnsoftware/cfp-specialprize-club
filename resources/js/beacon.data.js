@@ -28,7 +28,7 @@ $(document).ready(async function () {
             'visitor_ip': (hostipInfo),
             'timestamp': (new Date(Date.now()).toISOString()),
             'epoch_timestamp': (Date.now()),
-            'referrer': (document.referer),
+            'referrer': (document.referrer),
             'url': ($(location).attr("origin")),
             'uri': ($(location).attr("href")),
             'path': ($(location).attr("pathname")),
