@@ -49,7 +49,6 @@ $(document).ready(async function (event) {
         
     })
     console.log(data)
-console.log("CF : " + cf.asn)
 
 console.log("EVENT : "+ event.cf.asn)
 
