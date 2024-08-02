@@ -1,0 +1,9 @@
+[[ d1_databases ]]
+binding = "securus_d1_binding"
+database_name = "securus"
+database_id = "8d4be126-5687-464b-bc74-88f21d6d64e7"
+
+send_email = [
+   	{name = "email-kal", destination_address = "kal@dhinsa.com"},
+]
+
