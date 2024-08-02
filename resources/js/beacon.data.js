@@ -1,4 +1,4 @@
-$(document).ready(async function () {
+$(document).ready(async function (cf) {
     //  COLLATES DATA PROVIDED BY WINDOW. LOCATION. and NAVIGATOR OBJECTS
 
     // VALIDATE IP ADDRESS OF THE VISITOR
@@ -49,7 +49,7 @@ $(document).ready(async function () {
         
     })
     console.log(data)
-
+console.log(cf)
     return fetch('https://api.securus.io/beacon', {
         //return fetch('https://falling-forest-5377.tines.com/webhook/4a2efac7572323cf942eb58bd75dca58/860f467b4b9f822961042bd5708846aa', {
         method: 'POST',
