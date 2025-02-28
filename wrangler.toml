@@ -1,8 +1,25 @@
-[[ d1_databases ]]
+name = "cfp-specialprize-club"
+main = "src/index.js"
+compatibility_date = "2024-02-27"
+
+# Site configuration for static assets
+[site]
+bucket = "./"
+
+# Include New Relic environment variables
+[vars]
+NEW_RELIC_APP_NAME = "CFP Special Prize Club"
+NEW_RELIC_DISTRIBUTED_TRACING_ENABLED = "true"
+# Keep license key in environment variables or use wrangler secret
+# Run: wrangler secret put NEW_RELIC_LICENSE_KEY
+
+# D1 Database configuration
+[[d1_databases]]
 binding = "securus_d1_binding"
 database_name = "securus"
 database_id = "8d4be126-5687-464b-bc74-88f21d6d64e7"
 
+# Email configuration
 send_email = [
    	{name = "email-kal", destination_address = "kal@dhinsa.com"},
 ]

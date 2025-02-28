@@ -1,0 +1,28 @@
+{
+  "name": "cfp-specialprize-club",
+  "version": "1.0.0",
+  "description": "Warning site for phishing awareness",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "pages",
+    "newrelic",
+    "security",
+    "phishing"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@newrelic/cloudflare-worker": "^0.1.1",
+    "newrelic": "^10.6.0"
+  },
+  "devDependencies": {
+    "wrangler": "^3.19.0"
+  }
+}

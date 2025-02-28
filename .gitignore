@@ -1,2 +1,58 @@
+# Dependency directories
+node_modules/
+/node_modules
+
+# Environment configuration files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build directories
+dist/
+/dist
+/build
+
+#Scripts
+*.sh
+# Exclude README.md from ignore
+!README.md
+*.md
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
 .DS_Store
-backup.sh
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Cloudflare
+.wrangler/
+.dev.vars
+
+# Database files
+*.sql
+*.sqlite
+*.db
+
+# JSON
+*.json
+# Exclude package.json from ignore
+!package.json
