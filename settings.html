@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visit Reports - Special Prize Club</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a73e8, #0d47a1);
+            color: white;
+            padding: 24px 0;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .filters-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .filters-card h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1a73e8;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .filter-group input:focus,
+        .filter-group select:focus {
+            outline: none;
+            border-color: #1a73e8;
+            box-shadow: 0 0 0 3px rgba(26,115,232,0.15);
+        }
+
+        .quick-filters {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .quick-filter-btn {
+            padding: 8px 16px;
+            background: #e8f0fe;
+            color: #1a73e8;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .quick-filter-btn:hover {
+            background: #d2e3fc;
+        }
+
+        .quick-filter-btn.active {
+            background: #1a73e8;
+            color: white;
+        }
+
+        .btn-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #1a73e8;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1557b0;
+        }
+
+        .btn-secondary {
+            background: #f1f3f4;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e8eaed;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a73e8;
+        }
+
+        .stat-card .label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .results-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .results-header h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .results-count {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        td {
+            font-size: 0.9rem;
+        }
+
+        .ip-cell {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            color: #1a73e8;
+        }
+
+        .timestamp-cell {
+            white-space: nowrap;
+            color: #666;
+        }
+
+        .country-cell {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .path-cell {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            color: #333;
+        }
+
+        .user-agent-cell {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .pagination button {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: #f1f3f4;
+            border-color: #ccc;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination .page-info {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e8f0fe;
+            border-top-color: #1a73e8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-state svg {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .error-message {
+            background: #fce8e6;
+            color: #c5221f;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-row {
+                flex-direction: column;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Visit Reports</h1>
+            <p>Special Prize Club - Visitor Analytics Dashboard</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="filters-card">
+            <h2>Filters</h2>
+
+            <div class="quick-filters">
+                <button class="quick-filter-btn active" data-range="today">Today</button>
+                <button class="quick-filter-btn" data-range="yesterday">Yesterday</button>
+                <button class="quick-filter-btn" data-range="7days">Last 7 Days</button>
+                <button class="quick-filter-btn" data-range="30days">Last 30 Days</button>
+                <button class="quick-filter-btn" data-range="all">All Time</button>
+            </div>
+
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="ip">IP Address</label>
+                    <input type="text" id="ip" placeholder="e.g., 192.168.1">
+                </div>
+                <div class="filter-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="filter-group">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate">
+                </div>
+                <div class="filter-group">
+                    <label for="country">Country</label>
+                    <input type="text" id="country" placeholder="e.g., US, GB">
+                </div>
+                <div class="filter-group">
+                    <label for="path">Path</label>
+                    <input type="text" id="path" placeholder="e.g., /index">
+                </div>
+                <div class="filter-group">
+                    <label for="limit">Results per page</label>
+                    <select id="limit">
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100" selected>100</option>
+                        <option value="250">250</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn btn-primary" id="searchBtn">Search</button>
+                <button class="btn btn-secondary" id="clearBtn">Clear Filters</button>
+                <button class="btn btn-secondary" id="exportBtn">Export CSV</button>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="value" id="totalVisits">-</div>
+                <div class="label">Total Visits</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="uniqueIPs">-</div>
+                <div class="label">Shown</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="topCountry">-</div>
+                <div class="label">Top Country</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="currentPage">-</div>
+                <div class="label">Page</div>
+            </div>
+        </div>
+
+        <div id="errorContainer"></div>
+
+        <div class="results-card">
+            <div class="results-header">
+                <h2>Visit Log</h2>
+                <span class="results-count" id="resultsCount">Loading...</span>
+            </div>
+
+            <div id="resultsContainer">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading visits...</p>
+                </div>
+            </div>
+
+            <div class="pagination" id="pagination" style="display: none;">
+                <button id="prevBtn">&larr; Previous</button>
+                <span class="page-info" id="pageInfo">Page 1</span>
+                <button id="nextBtn">Next &rarr;</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentOffset = 0;
+        let currentLimit = 100;
+        let totalResults = 0;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            setDefaultDates();
+            fetchVisits();
+            setupEventListeners();
+        });
+
+        function setDefaultDates() {
+            const today = new Date();
+            const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+            document.getElementById('startDate').value = formatDateForInput(startOfDay);
+            document.getElementById('endDate').value = formatDateForInput(today);
+        }
+
+        function formatDateForInput(date) {
+            return date.toISOString().split('T')[0];
+        }
+
+        function setupEventListeners() {
+            document.getElementById('searchBtn').addEventListener('click', () => {
+                currentOffset = 0;
+                fetchVisits();
+            });
+
+            document.getElementById('clearBtn').addEventListener('click', clearFilters);
+            document.getElementById('exportBtn').addEventListener('click', exportCSV);
+            document.getElementById('prevBtn').addEventListener('click', prevPage);
+            document.getElementById('nextBtn').addEventListener('click', nextPage);
+
+            document.querySelectorAll('.quick-filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => applyQuickFilter(btn));
+            });
+
+            document.getElementById('limit').addEventListener('change', (e) => {
+                currentLimit = parseInt(e.target.value);
+                currentOffset = 0;
+                fetchVisits();
+            });
+
+            // Enter key triggers search
+            document.querySelectorAll('.filter-group input').forEach(input => {
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        currentOffset = 0;
+                        fetchVisits();
+                    }
+                });
+            });
+        }
+
+        function applyQuickFilter(btn) {
+            document.querySelectorAll('.quick-filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const range = btn.dataset.range;
+            const today = new Date();
+            let startDate, endDate;
+
+            switch (range) {
+                case 'today':
+                    startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                    endDate = today;
+                    break;
+                case 'yesterday':
+                    startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+                    endDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1);
+                    break;
+                case '7days':
+                    startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
+                    endDate = today;
+                    break;
+                case '30days':
+                    startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 30);
+                    endDate = today;
+                    break;
+                case 'all':
+                    startDate = null;
+                    endDate = null;
+                    break;
+            }
+
+            document.getElementById('startDate').value = startDate ? formatDateForInput(startDate) : '';
+            document.getElementById('endDate').value = endDate ? formatDateForInput(endDate) : '';
+
+            currentOffset = 0;
+            fetchVisits();
+        }
+
+        function clearFilters() {
+            document.getElementById('ip').value = '';
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            document.getElementById('country').value = '';
+            document.getElementById('path').value = '';
+            document.querySelectorAll('.quick-filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector('[data-range="all"]').classList.add('active');
+            currentOffset = 0;
+            fetchVisits();
+        }
+
+        async function fetchVisits() {
+            const container = document.getElementById('resultsContainer');
+            container.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading visits...</p>
+                </div>
+            `;
+            document.getElementById('errorContainer').innerHTML = '';
+
+            const params = new URLSearchParams();
+
+            const ip = document.getElementById('ip').value.trim();
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const country = document.getElementById('country').value.trim().toUpperCase();
+            const path = document.getElementById('path').value.trim();
+
+            if (ip) params.append('ip', ip);
+            if (startDate) params.append('startDate', startDate);
+            if (endDate) params.append('endDate', endDate);
+            if (country) params.append('country', country);
+            if (path) params.append('path', path);
+            params.append('limit', currentLimit);
+            params.append('offset', currentOffset);
+
+            try {
+                const response = await fetch(`/api/visits?${params.toString()}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                totalResults = data.total;
+                renderResults(data.visits);
+                updateStats(data);
+                updatePagination();
+
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <p>Error loading data</p>
+                    </div>
+                `;
+                document.getElementById('errorContainer').innerHTML = `
+                    <div class="error-message">
+                        ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function renderResults(visits) {
+            const container = document.getElementById('resultsContainer');
+
+            if (!visits || visits.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <p>No visits found matching your criteria</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const tableHTML = `
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>IP Address</th>
+                                <th>Country</th>
+                                <th>City</th>
+                                <th>Path</th>
+                                <th>Referrer</th>
+                                <th>User Agent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${visits.map(visit => `
+                                <tr>
+                                    <td class="timestamp-cell">${formatTimestamp(visit.timestamp)}</td>
+                                    <td class="ip-cell">${escapeHtml(visit.ip || '-')}</td>
+                                    <td class="country-cell">${escapeHtml(visit.country || '-')}</td>
+                                    <td>${escapeHtml(visit.city || '-')}</td>
+                                    <td class="path-cell">${escapeHtml(visit.path || '-')}</td>
+                                    <td>${escapeHtml(truncate(visit.referrer, 40) || '-')}</td>
+                                    <td class="user-agent-cell" title="${escapeHtml(visit.user_agent || '')}">${escapeHtml(visit.user_agent || '-')}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+            container.innerHTML = tableHTML;
+        }
+
+        function updateStats(data) {
+            document.getElementById('totalVisits').textContent = data.total.toLocaleString();
+            document.getElementById('uniqueIPs').textContent = data.visits.length.toLocaleString();
+
+            // Calculate top country from current results
+            const countries = {};
+            data.visits.forEach(v => {
+                if (v.country) {
+                    countries[v.country] = (countries[v.country] || 0) + 1;
+                }
+            });
+            const topCountry = Object.entries(countries).sort((a, b) => b[1] - a[1])[0];
+            document.getElementById('topCountry').textContent = topCountry ? topCountry[0] : '-';
+
+            const currentPage = Math.floor(currentOffset / currentLimit) + 1;
+            const totalPages = Math.ceil(totalResults / currentLimit);
+            document.getElementById('currentPage').textContent = `${currentPage}/${totalPages}`;
+        }
+
+        function updatePagination() {
+            const pagination = document.getElementById('pagination');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const pageInfo = document.getElementById('pageInfo');
+
+            const currentPage = Math.floor(currentOffset / currentLimit) + 1;
+            const totalPages = Math.ceil(totalResults / currentLimit);
+
+            if (totalPages <= 1) {
+                pagination.style.display = 'none';
+                return;
+            }
+
+            pagination.style.display = 'flex';
+            prevBtn.disabled = currentOffset === 0;
+            nextBtn.disabled = currentOffset + currentLimit >= totalResults;
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+
+            document.getElementById('resultsCount').textContent =
+                `Showing ${currentOffset + 1}-${Math.min(currentOffset + currentLimit, totalResults)} of ${totalResults}`;
+        }
+
+        function prevPage() {
+            if (currentOffset > 0) {
+                currentOffset = Math.max(0, currentOffset - currentLimit);
+                fetchVisits();
+            }
+        }
+
+        function nextPage() {
+            if (currentOffset + currentLimit < totalResults) {
+                currentOffset += currentLimit;
+                fetchVisits();
+            }
+        }
+
+        function formatTimestamp(ts) {
+            if (!ts) return '-';
+            const date = new Date(ts);
+            return date.toLocaleString();
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function truncate(str, len) {
+            if (!str) return '';
+            return str.length > len ? str.substring(0, len) + '...' : str;
+        }
+
+        async function exportCSV() {
+            const params = new URLSearchParams();
+
+            const ip = document.getElementById('ip').value.trim();
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const country = document.getElementById('country').value.trim().toUpperCase();
+            const path = document.getElementById('path').value.trim();
+
+            if (ip) params.append('ip', ip);
+            if (startDate) params.append('startDate', startDate);
+            if (endDate) params.append('endDate', endDate);
+            if (country) params.append('country', country);
+            if (path) params.append('path', path);
+            params.append('limit', 10000);
+            params.append('offset', 0);
+
+            try {
+                const response = await fetch(`/api/visits?${params.toString()}`);
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                const headers = ['timestamp', 'ip', 'country', 'city', 'path', 'referrer', 'user_agent', 'asn', 'timezone'];
+                const csvContent = [
+                    headers.join(','),
+                    ...data.visits.map(row =>
+                        headers.map(h => `"${(row[h] || '').toString().replace(/"/g, '""')}"`).join(',')
+                    )
+                ].join('\n');
+
+                const blob = new Blob([csvContent], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `visits_export_${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+            } catch (error) {
+                alert('Export failed: ' + error.message);
+            }
+        }
+    </script>
+</body>
+</html>
