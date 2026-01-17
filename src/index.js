@@ -105,7 +105,7 @@ async function trackVisit(request, env, url) {
       ).run();
     }
 
-    // Log for debugging (visible in wrangler tail)
+    // Log for debugging
     console.log('Visit tracked:', {
       ip: visitorData.ip,
       path: visitorData.path,
