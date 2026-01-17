@@ -78,10 +78,19 @@
         }
 
         /* Hero Image Container */
-        .hero-image-container {
-            margin: 40px 0;
-            padding: 8px;
+        .hero-image-wrapper {
+            width: 100vw;
+            margin-left: calc(-50vw + 50%);
             background: var(--color-bg-secondary);
+            padding: 40px 20px;
+            margin-top: 40px;
+            margin-bottom: 0;
+        }
+
+        .hero-image-container {
+            margin: 0 auto;
+            padding: 8px;
+            background: var(--color-bg-tertiary);
             border-radius: 20px;
             width: 100%;
             max-width: 800px;
@@ -139,11 +148,12 @@
 
         /* Down Chevron Indicator - Inline */
         .scroll-indicator-inline {
-            display: inline-block;
-            margin-top: 40px;
+            display: block;
+            margin: 40px auto 0;
             cursor: pointer;
             opacity: 0.5;
             transition: opacity 0.2s ease;
+            width: fit-content;
         }
 
         .scroll-indicator-inline:hover {
@@ -291,14 +301,16 @@
             <h1>DON'T DO THAT</h1>
             <h2>THERE IS NEVER A FREE PRIZE</h2>
 
-            <div class="hero-image-container">
-                <img src="rickroll.gif" alt="Security awareness illustration" class="hero-image">
-            </div>
+            <div class="hero-image-wrapper">
+                <div class="hero-image-container">
+                    <img src="rickroll.gif" alt="Security awareness illustration" class="hero-image">
+                </div>
 
-            <!-- Scroll Indicator -->
-            <a href="#about" class="scroll-indicator-inline" aria-label="Scroll down for more information">
-                <div class="chevron"></div>
-            </a>
+                <!-- Scroll Indicator -->
+                <a href="#about" class="scroll-indicator-inline" aria-label="Scroll down for more information">
+                    <div class="chevron"></div>
+                </a>
+            </div>
         </div>
     </section>
 
