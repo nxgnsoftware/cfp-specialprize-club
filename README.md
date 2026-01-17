@@ -1,60 +1,31 @@
-# CFP Special Prize Club
+# Special Prize Club - Security Awareness Training
 
-A warning site for phishing awareness that demonstrates the tactics used by scammers with "free prize" claims.
+A simple security awareness website demonstrating common scam tactics.
 
-## Overview
+## About
 
-This project serves as an educational tool for cybersecurity training. It displays a warning message when users scan QR codes or follow links promising fake prizes or rewards, helping to raise awareness about common phishing tactics.
+This site warns users about "free prize" scams and social engineering tactics used in phishing attempts.
 
-## Features
+## Files
 
-- Warning message for users who follow deceptive links
-- Rick roll animation for visual impact
-- QR code generation for training materials
-- Visitor tracking and analytics via Cloudflare D1 database
-- New Relic instrumentation for performance monitoring
+- `index.html` - Main page with warning message and licensing info
+- `qr.html` - QR code page (needs to be created)
+- `rickroll.gif` - Image asset (needs to be added)
 
-## Technology Stack
+## Image Quality Note
 
-- Cloudflare Pages for hosting
-- Cloudflare Workers for serverless functions
-- Cloudflare D1 for database storage
-- New Relic for monitoring and analytics
+The `rickroll.gif` file currently has quality issues (grainy/pixelated). To improve:
 
-## Development
+1. **Find a higher quality source** - Search for a better quality version of the rickroll gif
+2. **Use image editing tools** - Tools like Photoshop, GIMP, or online services can help:
+   - Upscaling tools (waifu2x, Real-ESRGAN)
+   - AI enhancement services (Topaz Labs, Let's Enhance)
+3. **Replace with alternative** - Consider using a different image entirely
 
-### Prerequisites
+## Deployment
 
-- Node.js (v18 or higher)
-- Wrangler CLI tool (`npm install -g wrangler`)
-- Cloudflare account
-
-### Setup
-
-1. Clone this repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Set up New Relic:
-   ```bash
-   wrangler secret put NEW_RELIC_LICENSE_KEY
-   ```
-   Or use the .env file for local development
-   
-4. Start development server:
-   ```bash
-   npm run dev
-   ```
-
-### Deployment
-
-Deploy to Cloudflare Pages:
-
-```bash
-npm run deploy
-```
+This site can be deployed to Cloudflare Pages, GitHub Pages, or any static hosting service.
 
 ## License
 
-This project is intended for educational purposes only. Use for security awareness training.
+Free to use for security training and educational purposes with attribution to https://specialprize.club

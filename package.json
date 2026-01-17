@@ -18,10 +18,7 @@
   ],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@newrelic/cloudflare-worker": "^0.1.1",
-    "newrelic": "^10.6.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "wrangler": "^3.19.0"
   }

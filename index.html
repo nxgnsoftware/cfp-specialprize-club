@@ -1,105 +1,214 @@
 <!DOCTYPE html>
-
-<html lang="en-US">
-
+<html lang="en">
 <head>
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
-    <link rel="stylesheet" href="/resources/css/bootstrap.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DON'T DO THAT - THERE IS NEVER A FREE PRIZE</title>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Prize Club - Security Awareness Training</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
-            margin: 0;
+        }
+
+        /* Hero Section - Above the Fold */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            position: relative;
             padding: 20px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            text-align: center;
         }
 
         h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
+            color: #d32f2f;
+            font-size: 3em;
+            margin-bottom: 20px;
         }
 
-        iframe {
-            display: block;
-            margin: 0 auto;
-            max-width: 100%;
+        h2 {
+            color: #333;
+            font-size: 2em;
+            margin-bottom: 40px;
         }
 
         img {
-            display: block;
-            margin: 0 auto;
             max-width: 100%;
+            max-height: 300px;
+            height: auto;
+            border-radius: 4px;
+            margin: 30px 0;
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #999;
-        }
-    </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <script src="/resources/js/beacon.data.js"></script>
-    <script src="/resources/js/origin.js"></script>
-
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-
-    <!-- Popper.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-
-    <!-- Your custom CSS -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
             padding: 20px;
+            margin: 30px 0;
+            text-align: left;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
+        .qr-link {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background: #2196f3;
+            color: white;
+            border-radius: 4px;
+            font-weight: bold;
+            text-decoration: none;
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #999;
+        .qr-link:hover {
+            background: #1976d2;
+        }
+
+        /* Down Chevron Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+        }
+
+        .chevron {
+            width: 40px;
+            height: 40px;
+            border-left: 3px solid #666;
+            border-bottom: 3px solid #666;
+            transform: rotate(-45deg);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) rotate(-45deg);
+            }
+            40% {
+                transform: translateY(-10px) rotate(-45deg);
+            }
+            60% {
+                transform: translateY(-5px) rotate(-45deg);
+            }
+        }
+
+        /* License Section - Below the Fold */
+        .license-section {
+            min-height: 100vh;
+            background-color: #f2f2f2;
+            padding: 60px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .license-container {
+            max-width: 800px;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .license-container h3 {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .license-container p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .license-container ul {
+            margin: 15px 0 15px 30px;
+            line-height: 1.8;
+        }
+
+        .license-container a {
+            color: #2196f3;
+            text-decoration: none;
+        }
+
+        .license-container a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .license-container {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
-
-
-
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>DON'T DO THAT<br>THERE IS NEVER A FREE PRIZE</h1>
+    <!-- Hero Section: Main Message -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1>DON'T DO THAT</h1>
+            <h2>THERE IS NEVER A FREE PRIZE</h2>
+
+            <img src="rickroll.gif" alt="Security awareness illustration">
+
+            <div class="info-box">
+                <p><strong>About This Resource:</strong> This webpage is designed for information security awareness training. It demonstrates common social engineering tactics used in phishing and scam attempts.</p>
+            </div>
+
+            <a href="qr.html" class="qr-link">View QR Code</a>
         </div>
 
-        <div class="embed-responsive embed-responsive-16by9">
-            <img src="rickroll.gif" class="embed-responsive-item" allowfullscreen></iframe>
+        <!-- Scroll Indicator -->
+        <a href="#license" class="scroll-indicator" aria-label="Scroll down for license information">
+            <div class="chevron"></div>
+        </a>
+    </section>
+
+    <!-- License Section: Below the Fold -->
+    <section id="license" class="license-section">
+        <div class="license-container">
+            <h3>License & Attribution</h3>
+
+            <p><strong>Free Use for Security Training:</strong> This website may be freely used, copied, and distributed for information security training and educational purposes.</p>
+
+            <p><strong>Attribution Required:</strong> When reusing this material, please provide attribution as follows:</p>
+            <ul>
+                <li>Original source: <a href="https://specialprize.club">https://specialprize.club</a></li>
+                <li>Recommended attribution text: "Security awareness content adapted from specialprize.club"</li>
+            </ul>
+
+            <p><strong>Image Licensing:</strong> The image used on this page (rickroll.gif) may be subject to separate copyright. Users are responsible for ensuring compliance with applicable image licensing when reusing this material.</p>
+
+            <p><strong>Limitations:</strong> This material is provided for educational purposes only. The creators assume no liability for how this content is used.</p>
         </div>
-        <div class="footer">
-            <p>This webpage may be used freely by information security training materials.<br>QR Code is available <a
-                    href="qr.html">here</a></p>
-        </div>
-    </div>
+    </section>
 </body>
-
 </html>
