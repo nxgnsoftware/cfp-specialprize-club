@@ -4,11 +4,18 @@
  */
 
 const D1_BINDING = 'cfp_specialprize_club_d1';
+const CANONICAL_HOST = 'specialprize.club';
 
 export default {
   async fetch(request, env, ctx) {
     try {
       const url = new URL(request.url);
+
+      // Redirect to canonical domain if accessed via pages.dev or other URLs
+      if (url.hostname !== CANONICAL_HOST) {
+        const redirectUrl = new URL(url.pathname + url.search, `https://${CANONICAL_HOST}`);
+        return Response.redirect(redirectUrl.toString(), 301);
+      }
 
       // Handle API routes
       if (url.pathname === "/api/beacon") {
