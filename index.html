@@ -4,7 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Special Prize Club - Security Awareness Training</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --color-danger: #dc2626;
+            --color-danger-dark: #b91c1c;
+            --color-accent: #2563eb;
+            --color-accent-dark: #1d4ed8;
+            --color-text-primary: #111827;
+            --color-text-secondary: #4b5563;
+            --color-text-muted: #6b7280;
+            --color-bg-primary: #ffffff;
+            --color-bg-secondary: #f3f4f6;
+            --color-bg-tertiary: #e5e7eb;
+            --color-border: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -16,8 +37,10 @@
         }
 
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--color-bg-secondary);
+            color: var(--color-text-primary);
+            line-height: 1.6;
         }
 
         /* Hero Section - Above the Fold */
@@ -27,57 +50,91 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: white;
+            background: var(--color-bg-primary);
             position: relative;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
         .hero-content {
-            max-width: 800px;
+            max-width: 900px;
             text-align: center;
         }
 
         h1 {
-            color: #d32f2f;
-            font-size: 3em;
-            margin-bottom: 20px;
+            color: var(--color-danger);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            line-height: 1.1;
         }
 
         h2 {
-            color: #333;
-            font-size: 2em;
+            color: var(--color-text-secondary);
+            font-size: clamp(1.25rem, 3vw, 2rem);
+            font-weight: 600;
+            letter-spacing: -0.01em;
             margin-bottom: 40px;
         }
 
-        img {
-            max-width: 100%;
-            max-height: 300px;
+        /* Hero Image Container */
+        .hero-image-container {
+            margin: 40px 0;
+            padding: 8px;
+            background: var(--color-bg-secondary);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .hero-image {
+            display: block;
+            width: 100%;
             height: auto;
-            border-radius: 4px;
-            margin: 30px 0;
+            border-radius: 16px;
+            box-shadow: var(--shadow-xl);
         }
 
         .info-box {
-            background: #e3f2fd;
-            border-left: 4px solid #2196f3;
-            padding: 20px;
-            margin: 30px 0;
+            background: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            border-left: 4px solid var(--color-accent);
+            padding: 24px;
+            margin: 40px 0;
             text-align: left;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .info-box p {
+            color: var(--color-text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        .info-box strong {
+            color: var(--color-text-primary);
+            font-weight: 600;
         }
 
         .qr-link {
             display: inline-block;
-            margin: 20px 0;
-            padding: 10px 20px;
-            background: #2196f3;
+            margin: 24px 0;
+            padding: 16px 32px;
+            background: var(--color-accent);
             color: white;
-            border-radius: 4px;
-            font-weight: bold;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
             text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-md);
         }
 
         .qr-link:hover {
-            background: #1976d2;
+            background: var(--color-accent-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
         }
 
         /* Down Chevron Indicator */
@@ -87,34 +144,37 @@
             left: 50%;
             transform: translateX(-50%);
             cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s ease;
+        }
+
+        .scroll-indicator:hover {
+            opacity: 0.8;
         }
 
         .chevron {
-            width: 40px;
-            height: 40px;
-            border-left: 3px solid #666;
-            border-bottom: 3px solid #666;
+            width: 36px;
+            height: 36px;
+            border-left: 3px solid var(--color-text-muted);
+            border-bottom: 3px solid var(--color-text-muted);
             transform: rotate(-45deg);
-            animation: bounce 2s infinite;
+            animation: float 3s ease-in-out infinite;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
+        @keyframes float {
+            0%, 100% {
                 transform: translateY(0) rotate(-45deg);
             }
-            40% {
-                transform: translateY(-10px) rotate(-45deg);
-            }
-            60% {
-                transform: translateY(-5px) rotate(-45deg);
+            50% {
+                transform: translateY(8px) rotate(-45deg);
             }
         }
 
         /* License Section - Below the Fold */
         .license-section {
             min-height: 100vh;
-            background-color: #f2f2f2;
-            padding: 60px 20px;
+            background-color: var(--color-bg-secondary);
+            padding: 80px 20px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -122,50 +182,92 @@
 
         .license-container {
             max-width: 800px;
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: var(--color-bg-primary);
+            padding: 48px;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
         }
 
         .license-container h3 {
-            color: #555;
-            margin-bottom: 20px;
-            font-size: 1.8em;
+            color: var(--color-text-primary);
+            margin-bottom: 24px;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
 
         .license-container p {
-            margin-bottom: 15px;
-            line-height: 1.6;
-            color: #333;
+            margin-bottom: 20px;
+            line-height: 1.7;
+            color: var(--color-text-secondary);
+        }
+
+        .license-container p strong {
+            color: var(--color-text-primary);
+            font-weight: 600;
         }
 
         .license-container ul {
-            margin: 15px 0 15px 30px;
+            margin: 16px 0 20px 24px;
             line-height: 1.8;
+            color: var(--color-text-secondary);
+        }
+
+        .license-container li {
+            margin-bottom: 8px;
         }
 
         .license-container a {
-            color: #2196f3;
+            color: var(--color-accent);
             text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
         }
 
         .license-container a:hover {
+            color: var(--color-accent-dark);
             text-decoration: underline;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2em;
+            .hero-section {
+                padding: 30px 16px;
             }
 
-            h2 {
-                font-size: 1.5em;
+            .hero-image-container {
+                margin: 30px 0;
+                padding: 6px;
+                border-radius: 16px;
+            }
+
+            .hero-image {
+                border-radius: 12px;
+            }
+
+            .info-box {
+                padding: 20px;
+                margin: 30px 0;
             }
 
             .license-container {
-                padding: 30px 20px;
+                padding: 32px 24px;
+            }
+
+            .license-section {
+                padding: 60px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .qr-link {
+                display: block;
+                width: 100%;
+                text-align: center;
+            }
+
+            .license-container {
+                padding: 24px 20px;
             }
         }
     </style>
@@ -177,7 +279,9 @@
             <h1>DON'T DO THAT</h1>
             <h2>THERE IS NEVER A FREE PRIZE</h2>
 
-            <img src="rickroll.gif" alt="Security awareness illustration">
+            <div class="hero-image-container">
+                <img src="rickroll.gif" alt="Security awareness illustration" class="hero-image">
+            </div>
 
             <div class="info-box">
                 <p><strong>About This Resource:</strong> This webpage is designed for information security awareness training. It demonstrates common social engineering tactics used in phishing and scam attempts.</p>
