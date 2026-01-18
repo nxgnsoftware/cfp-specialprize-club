@@ -670,14 +670,21 @@
             const params = new URLSearchParams();
 
             const ip = document.getElementById('ip').value.trim();
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
+            const startDateVal = document.getElementById('startDate').value;
+            const endDateVal = document.getElementById('endDate').value;
             const country = document.getElementById('country').value.trim().toUpperCase();
             const path = document.getElementById('path').value.trim();
 
             if (ip) params.append('ip', ip);
-            if (startDate) params.append('startDate', startDate);
-            if (endDate) params.append('endDate', endDate);
+            // Convert local dates to UTC ISO strings for proper timezone handling
+            if (startDateVal) {
+                const startLocal = new Date(startDateVal + 'T00:00:00');
+                params.append('startDate', startLocal.toISOString());
+            }
+            if (endDateVal) {
+                const endLocal = new Date(endDateVal + 'T23:59:59.999');
+                params.append('endDate', endLocal.toISOString());
+            }
             if (country) params.append('country', country);
             if (path) params.append('path', path);
             params.append('limit', currentLimit);
@@ -888,14 +895,21 @@
             const params = new URLSearchParams();
 
             const ip = document.getElementById('ip').value.trim();
-            const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
+            const startDateVal = document.getElementById('startDate').value;
+            const endDateVal = document.getElementById('endDate').value;
             const country = document.getElementById('country').value.trim().toUpperCase();
             const path = document.getElementById('path').value.trim();
 
             if (ip) params.append('ip', ip);
-            if (startDate) params.append('startDate', startDate);
-            if (endDate) params.append('endDate', endDate);
+            // Convert local dates to UTC ISO strings for proper timezone handling
+            if (startDateVal) {
+                const startLocal = new Date(startDateVal + 'T00:00:00');
+                params.append('startDate', startLocal.toISOString());
+            }
+            if (endDateVal) {
+                const endLocal = new Date(endDateVal + 'T23:59:59.999');
+                params.append('endDate', endLocal.toISOString());
+            }
             if (country) params.append('country', country);
             if (path) params.append('path', path);
             params.append('limit', 10000);

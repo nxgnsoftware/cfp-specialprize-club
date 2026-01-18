@@ -40,12 +40,14 @@ export async function onRequestGet(context) {
 
     if (startDate) {
       query += ' AND timestamp >= ?';
-      bindings.push(startDate + 'T00:00:00.000Z');
+      // If already an ISO string, use as-is; otherwise append time
+      bindings.push(startDate.includes('T') ? startDate : startDate + 'T00:00:00.000Z');
     }
 
     if (endDate) {
       query += ' AND timestamp <= ?';
-      bindings.push(endDate + 'T23:59:59.999Z');
+      // If already an ISO string, use as-is; otherwise append time
+      bindings.push(endDate.includes('T') ? endDate : endDate + 'T23:59:59.999Z');
     }
 
     if (country) {
@@ -93,12 +95,14 @@ export async function onRequestGet(context) {
 
     if (startDate) {
       countQuery += ' AND timestamp >= ?';
-      countBindings.push(startDate + 'T00:00:00.000Z');
+      // If already an ISO string, use as-is; otherwise append time
+      countBindings.push(startDate.includes('T') ? startDate : startDate + 'T00:00:00.000Z');
     }
 
     if (endDate) {
       countQuery += ' AND timestamp <= ?';
-      countBindings.push(endDate + 'T23:59:59.999Z');
+      // If already an ISO string, use as-is; otherwise append time
+      countBindings.push(endDate.includes('T') ? endDate : endDate + 'T23:59:59.999Z');
     }
 
     if (country) {
