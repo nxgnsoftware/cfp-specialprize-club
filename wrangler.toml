@@ -1,0 +1,8 @@
+name = "cfp-specialprize-club"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "./"
+
+[[d1_databases]]
+binding = "cfp_specialprize_club_d1"
+database_name = "cfp-specialprize-club-d1"
+database_id = "721d34a7-9de4-4926-863e-f7446f48f837"
