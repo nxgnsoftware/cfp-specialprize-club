@@ -9,16 +9,22 @@ const CANONICAL_HOST = 'specialprize.club';
 export async function onRequest(context) {
   const { request, env, next } = context;
   const url = new URL(request.url);
+  const originalHost = url.hostname;
 
-  // Redirect to canonical domain if accessed via pages.dev or other URLs
-  if (url.hostname !== CANONICAL_HOST && url.hostname !== 'localhost' && !url.hostname.includes('127.0.0.1')) {
-    const redirectUrl = new URL(url.pathname + url.search, `https://${CANONICAL_HOST}`);
-    return Response.redirect(redirectUrl.toString(), 301);
+  // Check if this is a non-canonical domain (pages.dev, etc.)
+  const isNonCanonical = originalHost !== CANONICAL_HOST &&
+                         originalHost !== 'localhost' &&
+                         !originalHost.includes('127.0.0.1');
+
+  // Track visit BEFORE redirect (captures pages.dev visits)
+  if (shouldTrackRequest(request, url)) {
+    context.waitUntil(trackVisit(request, env, url, originalHost));
   }
 
-  // Track visit in background (for non-asset, non-API requests)
-  if (shouldTrackRequest(request, url)) {
-    context.waitUntil(trackVisit(request, env, url));
+  // Redirect to canonical domain if accessed via pages.dev or other URLs
+  if (isNonCanonical) {
+    const redirectUrl = new URL(url.pathname + url.search, `https://${CANONICAL_HOST}`);
+    return Response.redirect(redirectUrl.toString(), 301);
   }
 
   // Continue to next handler or static assets
@@ -38,7 +44,7 @@ function shouldTrackRequest(request, url) {
   return true;
 }
 
-async function trackVisit(request, env, url) {
+async function trackVisit(request, env, url, originalHost) {
   try {
     const db = env[D1_BINDING];
     if (!db) return;
@@ -53,6 +59,7 @@ async function trackVisit(request, env, url) {
       uri: url.href,
       path: url.pathname,
       query: url.search,
+      original_host: originalHost || url.hostname,
       // Geolocation from Cloudflare
       country: request.cf?.country || '',
       city: request.cf?.city || '',
@@ -82,12 +89,12 @@ async function trackVisit(request, env, url) {
 
     await db.prepare(
       `INSERT INTO visits (
-        ip, timestamp, user_agent, referrer, url, uri, path, query,
+        ip, timestamp, user_agent, referrer, url, uri, path, query, original_host,
         country, city, region, region_code, continent, postal_code, metro_code,
         timezone, latitude, longitude, is_eu_country,
         asn, colo, protocol, http_version, tls_version, tls_cipher,
         language, accept_encoding, client_hints_ua, client_hints_platform, client_hints_mobile
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     ).bind(
       visitorData.ip,
       visitorData.timestamp,
@@ -97,6 +104,7 @@ async function trackVisit(request, env, url) {
       visitorData.uri,
       visitorData.path,
       visitorData.query,
+      visitorData.original_host,
       visitorData.country,
       visitorData.city,
       visitorData.region,

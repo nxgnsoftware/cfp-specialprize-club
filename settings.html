@@ -773,6 +773,7 @@
                                                 </div>
                                                 <div class="detail-section">
                                                     <h4>Connection</h4>
+                                                    <div class="detail-item"><span class="label">Original Host</span><span class="value mono">${escapeHtml(visit.original_host || '-')}</span></div>
                                                     <div class="detail-item"><span class="label">Protocol</span><span class="value">${escapeHtml(visit.protocol || '-')}</span></div>
                                                     <div class="detail-item"><span class="label">HTTP Version</span><span class="value">${escapeHtml(visit.http_version || '-')}</span></div>
                                                     <div class="detail-item"><span class="label">TLS Version</span><span class="value">${escapeHtml(visit.tls_version || '-')}</span></div>
@@ -908,7 +909,7 @@
                 }
 
                 const headers = [
-                    'timestamp', 'ip', 'country', 'city', 'region', 'region_code', 'continent',
+                    'timestamp', 'ip', 'original_host', 'country', 'city', 'region', 'region_code', 'continent',
                     'postal_code', 'metro_code', 'timezone', 'latitude', 'longitude', 'is_eu_country',
                     'path', 'referrer', 'user_agent', 'asn', 'colo', 'protocol', 'http_version',
                     'tls_version', 'tls_cipher', 'language', 'accept_encoding',
