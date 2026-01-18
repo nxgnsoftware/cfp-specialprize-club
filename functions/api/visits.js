@@ -22,6 +22,9 @@ export async function onRequestGet(context) {
     const startDate = params.get('startDate');
     const endDate = params.get('endDate');
     const country = params.get('country');
+    const continent = params.get('continent');
+    const region = params.get('region');
+    const isEU = params.get('isEU');
     const path = params.get('path');
     const limit = parseInt(params.get('limit')) || 100;
     const offset = parseInt(params.get('offset')) || 0;
@@ -48,6 +51,24 @@ export async function onRequestGet(context) {
     if (country) {
       query += ' AND country = ?';
       bindings.push(country);
+    }
+
+    if (continent) {
+      query += ' AND continent = ?';
+      bindings.push(continent);
+    }
+
+    if (region) {
+      query += ' AND region LIKE ?';
+      bindings.push(`%${region}%`);
+    }
+
+    if (isEU === 'true') {
+      query += ' AND is_eu_country = ?';
+      bindings.push('true');
+    } else if (isEU === 'false') {
+      query += ' AND is_eu_country = ?';
+      bindings.push('false');
     }
 
     if (path) {
@@ -83,6 +104,24 @@ export async function onRequestGet(context) {
     if (country) {
       countQuery += ' AND country = ?';
       countBindings.push(country);
+    }
+
+    if (continent) {
+      countQuery += ' AND continent = ?';
+      countBindings.push(continent);
+    }
+
+    if (region) {
+      countQuery += ' AND region LIKE ?';
+      countBindings.push(`%${region}%`);
+    }
+
+    if (isEU === 'true') {
+      countQuery += ' AND is_eu_country = ?';
+      countBindings.push('true');
+    } else if (isEU === 'false') {
+      countQuery += ' AND is_eu_country = ?';
+      countBindings.push('false');
     }
 
     if (path) {

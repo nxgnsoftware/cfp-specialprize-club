@@ -271,6 +271,97 @@
             color: #888;
         }
 
+        /* Expandable rows */
+        .expandable-row {
+            cursor: pointer;
+            transition: background-color 0.15s;
+        }
+
+        .expandable-row:hover {
+            background: #e8f0fe;
+        }
+
+        .expandable-row td:first-child::before {
+            content: '▶';
+            display: inline-block;
+            margin-right: 8px;
+            font-size: 0.7rem;
+            color: #666;
+            transition: transform 0.2s;
+        }
+
+        .expandable-row.expanded td:first-child::before {
+            transform: rotate(90deg);
+        }
+
+        .detail-row {
+            display: none;
+            background: #f8f9fa;
+        }
+
+        .detail-row.visible {
+            display: table-row;
+        }
+
+        .detail-row td {
+            padding: 0;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .detail-content {
+            padding: 16px 24px;
+            margin: 0 16px 0 32px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .detail-section {
+            background: white;
+            border-radius: 8px;
+            padding: 12px 16px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .detail-section h4 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #1a73e8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e8f0fe;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.85rem;
+        }
+
+        .detail-item .label {
+            color: #666;
+        }
+
+        .detail-item .value {
+            color: #333;
+            font-weight: 500;
+            text-align: right;
+            max-width: 60%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .detail-item .value.mono {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.8rem;
+        }
+
         .pagination {
             display: flex;
             justify-content: center;
@@ -649,8 +740,8 @@
                             </tr>
                         </thead>
                         <tbody>
-                            ${visits.map(visit => `
-                                <tr>
+                            ${visits.map((visit, idx) => `
+                                <tr class="expandable-row" data-idx="${idx}">
                                     <td class="timestamp-cell">${formatTimestamp(visit.timestamp)}</td>
                                     <td class="ip-cell">${escapeHtml(visit.ip || '-')}</td>
                                     <td class="country-cell">${escapeHtml(visit.country || '-')}</td>
@@ -659,6 +750,45 @@
                                     <td>${escapeHtml(truncate(visit.referrer, 40) || '-')}</td>
                                     <td class="user-agent-cell" title="${escapeHtml(visit.user_agent || '')}">${escapeHtml(visit.user_agent || '-')}</td>
                                 </tr>
+                                <tr class="detail-row" data-idx="${idx}">
+                                    <td colspan="7">
+                                        <div class="detail-content">
+                                            <div class="detail-grid">
+                                                <div class="detail-section">
+                                                    <h4>Location Details</h4>
+                                                    <div class="detail-item"><span class="label">Region</span><span class="value">${escapeHtml(visit.region || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">Region Code</span><span class="value">${escapeHtml(visit.region_code || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">Continent</span><span class="value">${escapeHtml(visit.continent || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">Postal Code</span><span class="value">${escapeHtml(visit.postal_code || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">Metro Code</span><span class="value">${escapeHtml(visit.metro_code || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">Timezone</span><span class="value">${escapeHtml(visit.timezone || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">EU Country</span><span class="value">${visit.is_eu_country === 'true' ? 'Yes' : 'No'}</span></div>
+                                                </div>
+                                                <div class="detail-section">
+                                                    <h4>Coordinates</h4>
+                                                    <div class="detail-item"><span class="label">Latitude</span><span class="value mono">${escapeHtml(visit.latitude || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">Longitude</span><span class="value mono">${escapeHtml(visit.longitude || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">ASN</span><span class="value mono">${escapeHtml(visit.asn || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">Colo</span><span class="value">${escapeHtml(visit.colo || '-')}</span></div>
+                                                </div>
+                                                <div class="detail-section">
+                                                    <h4>Connection</h4>
+                                                    <div class="detail-item"><span class="label">Protocol</span><span class="value">${escapeHtml(visit.protocol || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">HTTP Version</span><span class="value">${escapeHtml(visit.http_version || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">TLS Version</span><span class="value">${escapeHtml(visit.tls_version || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">TLS Cipher</span><span class="value mono">${escapeHtml(truncate(visit.tls_cipher, 30) || '-')}</span></div>
+                                                </div>
+                                                <div class="detail-section">
+                                                    <h4>Client Info</h4>
+                                                    <div class="detail-item"><span class="label">Language</span><span class="value">${escapeHtml(visit.language || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">Encoding</span><span class="value">${escapeHtml(visit.accept_encoding || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">Platform</span><span class="value">${escapeHtml(visit.client_hints_platform?.replace(/"/g, '') || '-')}</span></div>
+                                                    <div class="detail-item"><span class="label">Mobile</span><span class="value">${escapeHtml(visit.client_hints_mobile?.replace(/[?"]/g, '') || '-')}</span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
                             `).join('')}
                         </tbody>
                     </table>
@@ -666,6 +796,16 @@
             `;
 
             container.innerHTML = tableHTML;
+
+            // Add click handlers for expandable rows
+            container.querySelectorAll('.expandable-row').forEach(row => {
+                row.addEventListener('click', () => {
+                    const idx = row.dataset.idx;
+                    const detailRow = container.querySelector(`.detail-row[data-idx="${idx}"]`);
+                    row.classList.toggle('expanded');
+                    detailRow.classList.toggle('visible');
+                });
+            });
         }
 
         function updateStats(data) {
@@ -767,7 +907,13 @@
                     throw new Error(data.error);
                 }
 
-                const headers = ['timestamp', 'ip', 'country', 'city', 'path', 'referrer', 'user_agent', 'asn', 'timezone'];
+                const headers = [
+                    'timestamp', 'ip', 'country', 'city', 'region', 'region_code', 'continent',
+                    'postal_code', 'metro_code', 'timezone', 'latitude', 'longitude', 'is_eu_country',
+                    'path', 'referrer', 'user_agent', 'asn', 'colo', 'protocol', 'http_version',
+                    'tls_version', 'tls_cipher', 'language', 'accept_encoding',
+                    'client_hints_ua', 'client_hints_platform', 'client_hints_mobile'
+                ];
                 const csvContent = [
                     headers.join(','),
                     ...data.visits.map(row =>
