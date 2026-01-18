@@ -1,7 +1,12 @@
 name = "cfp-specialprize-club"
-compatibility_date = "2024-01-01"
+compatibility_date = "2025-01-01"
 pages_build_output_dir = "./"
 
+# Environment Variables
+[vars]
+ENVIRONMENT = "production"
+
+# D1 Database Binding
 [[d1_databases]]
 binding = "cfp_specialprize_club_d1"
 database_name = "cfp-specialprize-club-d1"

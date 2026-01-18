@@ -16,9 +16,10 @@ dist/
 
 #Scripts
 *.sh
-# Exclude README.md from ignore
-!README.md
+# Markdown files (exclude documentation)
 *.md
+!README.md
+!CLAUDE.md
 
 # Debug logs
 npm-debug.log*

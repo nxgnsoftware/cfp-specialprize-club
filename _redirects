@@ -1,0 +1,9 @@
+# Cloudflare Pages Redirects
+# Forces all pages.dev traffic to canonical domain with 301 redirects
+
+# Redirect pages.dev to production domain
+https://cfp-specialprize-club.pages.dev/* https://specialprize.club/:splat 301!
+http://cfp-specialprize-club.pages.dev/* https://specialprize.club/:splat 301!
+
+# Redirect www to apex domain
+https://www.specialprize.club/* https://specialprize.club/:splat 301!

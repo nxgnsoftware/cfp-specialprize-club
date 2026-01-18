@@ -91,13 +91,8 @@ async function trackVisit(request, env, url) {
       visitorData.http_version
     ).run();
 
-    console.log('Visit tracked:', {
-      ip: visitorData.ip,
-      path: visitorData.path,
-      country: visitorData.country
-    });
-
   } catch (error) {
-    console.error('Error tracking visit:', error);
+    // Log errors server-side only - no sensitive info exposed
+    console.error('Visit tracking error');
   }
 }
