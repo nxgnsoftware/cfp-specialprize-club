@@ -738,6 +738,7 @@
                         <thead>
                             <tr>
                                 <th>Timestamp</th>
+                                <th>Status</th>
                                 <th>IP Address</th>
                                 <th>Country</th>
                                 <th>City</th>
@@ -750,6 +751,7 @@
                             ${visits.map((visit, idx) => `
                                 <tr class="expandable-row" data-idx="${idx}">
                                     <td class="timestamp-cell">${formatTimestamp(visit.timestamp)}</td>
+                                    <td>${escapeHtml(visit.response_code || '-')}</td>
                                     <td class="ip-cell">${escapeHtml(visit.ip || '-')}</td>
                                     <td class="country-cell">${escapeHtml(visit.country || '-')}</td>
                                     <td>${escapeHtml(visit.city || '-')}</td>
@@ -758,7 +760,7 @@
                                     <td class="user-agent-cell" title="${escapeHtml(visit.user_agent || '')}">${escapeHtml(visit.user_agent || '-')}</td>
                                 </tr>
                                 <tr class="detail-row" data-idx="${idx}">
-                                    <td colspan="7">
+                                    <td colspan="8">
                                         <div class="detail-content">
                                             <div class="detail-grid">
                                                 <div class="detail-section">
