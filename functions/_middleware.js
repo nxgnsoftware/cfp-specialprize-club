@@ -16,19 +16,23 @@ export async function onRequest(context) {
                          originalHost !== 'localhost' &&
                          !originalHost.includes('127.0.0.1');
 
-  // Track visit BEFORE redirect (captures pages.dev visits)
-  if (shouldTrackRequest(request, url)) {
-    context.waitUntil(trackVisit(request, env, url, originalHost));
-  }
-
-  // Redirect to canonical domain if accessed via pages.dev or other URLs
+  // For pages.dev visits: track with 301 response code, then redirect
   if (isNonCanonical) {
+    if (shouldTrackRequest(request, url)) {
+      context.waitUntil(trackVisit(request, env, url, originalHost, 301));
+    }
     const redirectUrl = new URL(url.pathname + url.search, `https://${CANONICAL_HOST}`);
     return Response.redirect(redirectUrl.toString(), 301);
   }
 
-  // Continue to next handler or static assets
-  return next();
+  // For canonical domain: get response first, then track with actual status code
+  const response = await next();
+
+  if (shouldTrackRequest(request, url)) {
+    context.waitUntil(trackVisit(request, env, url, originalHost, response.status));
+  }
+
+  return response;
 }
 
 function shouldTrackRequest(request, url) {
@@ -44,7 +48,7 @@ function shouldTrackRequest(request, url) {
   return true;
 }
 
-async function trackVisit(request, env, url, originalHost) {
+async function trackVisit(request, env, url, originalHost, responseCode) {
   try {
     const db = env[D1_BINDING];
     if (!db) return;
@@ -60,6 +64,7 @@ async function trackVisit(request, env, url, originalHost) {
       path: url.pathname,
       query: url.search,
       original_host: originalHost || url.hostname,
+      response_code: String(responseCode || ''),
       // Geolocation from Cloudflare
       country: request.cf?.country || '',
       city: request.cf?.city || '',
@@ -89,12 +94,12 @@ async function trackVisit(request, env, url, originalHost) {
 
     await db.prepare(
       `INSERT INTO visits (
-        ip, timestamp, user_agent, referrer, url, uri, path, query, original_host,
+        ip, timestamp, user_agent, referrer, url, uri, path, query, original_host, response_code,
         country, city, region, region_code, continent, postal_code, metro_code,
         timezone, latitude, longitude, is_eu_country,
         asn, colo, protocol, http_version, tls_version, tls_cipher,
         language, accept_encoding, client_hints_ua, client_hints_platform, client_hints_mobile
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
     ).bind(
       visitorData.ip,
       visitorData.timestamp,
@@ -105,6 +110,7 @@ async function trackVisit(request, env, url, originalHost) {
       visitorData.path,
       visitorData.query,
       visitorData.original_host,
+      visitorData.response_code,
       visitorData.country,
       visitorData.city,
       visitorData.region,

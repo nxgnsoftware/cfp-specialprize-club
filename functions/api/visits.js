@@ -40,7 +40,7 @@ export async function onRequestGet(context) {
 
     if (startDate) {
       query += ' AND timestamp >= ?';
-      bindings.push(startDate);
+      bindings.push(startDate + 'T00:00:00.000Z');
     }
 
     if (endDate) {
@@ -93,7 +93,7 @@ export async function onRequestGet(context) {
 
     if (startDate) {
       countQuery += ' AND timestamp >= ?';
-      countBindings.push(startDate);
+      countBindings.push(startDate + 'T00:00:00.000Z');
     }
 
     if (endDate) {
